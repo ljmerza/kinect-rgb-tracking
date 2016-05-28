@@ -13,8 +13,6 @@ Variables
 ----------------------------------------------------------------*/
 // create kinect object
 SimpleOpenNI  kinect;
-// boolean if kinect is tracking
-boolean tracking = false;
 // current userid of tracked user
 int userID;
 // mapping of users
@@ -23,6 +21,7 @@ int[] userMapping;
 PImage backgroundImage;
 // image from rgb camera
 PImage rgbImage;
+String imageLocation = 'theImage.png';
 
 /*---------------------------------------------------------------
 Setup method. Enables kinect and draw window
@@ -41,7 +40,7 @@ void setup() {
   kinect.alternativeViewPointDepthToImage(); 
 
   // load the background image
-  backgroundImage = loadImage(&quot;wef.png&quot;);
+  backgroundImage = loadImage(imageLocation);
   // create window width/height of rgb camera
   size(kinect.rgbWidth(),kinect.rgbHeight());
 } // void setup()
@@ -65,7 +64,7 @@ void draw() {
 
   // for the length of the pixels tracked, color them
   // in with the rgb camera
-  for (int i =0; i &lt; userMapping.length; i++) {
+  for (int i=0; i<userMapping.length; i++) {
     // if the pixel is part of the user
     if (userMapping[i] != 0) {
       // set the sketch pixel to the rgb camera pixel
@@ -82,7 +81,7 @@ When a new user is found, print new user detected along with
 userID and start pose detection.  Input is userID
 ----------------------------------------------------------------*/
 void onNewUser(SimpleOpenNI curContext, int userId){
-  println(&quot;New User Detected - userId: &quot; + userId);
+  println("New User Detected - userId: " + userId);
   // start tracking of user id
   curContext.startTrackingSkeleton(userId);
 } //void onNewUser(SimpleOpenNI curContext, int userId)
@@ -92,6 +91,6 @@ Print when user is lost. Input is int userId of user lost
 ----------------------------------------------------------------*/
 void onLostUser(SimpleOpenNI curContext, int userId){
   // print user lost and user id
-  println(&quot;User Lost - userId: &quot; + userId);
+  println("User Lost - userId: " + userId);
 } //void onLostUser(SimpleOpenNI curContext, int userId)
 
